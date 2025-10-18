@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::sync::LazyLock;
 
 use chrono::{DateTime, Utc};
 use log::warn;
@@ -33,12 +32,10 @@ const OPEN_INTEREST_URL: &str = "https://fapi.binance.com/futures/data/openInter
 const OPEN_INTEREST_INTERVAL: &str = "5m";
 const OPEN_INTEREST_LIMIT: &str = "50";
 
-const TO_EXCLUDE: LazyLock<Vec<&str>> = LazyLock::new(|| {
-    vec![
-        "USD1", "USDT", "USDC", "USDP", "FDUSD", "BTC", "WBTC", "WBETH", "ETH", "SOL", "BNSOL",
-        "XRP", "BNB", "ADA", "SUI", "LTC", "TRX", "PAXG", "DAI", "BFUSD",
-    ]
-});
+const TO_EXCLUDE: [&str; 20] = [
+    "USD1", "USDT", "USDC", "USDP", "FDUSD", "BTC", "WBTC", "WBETH", "ETH", "SOL", "BNSOL",
+    "XRP", "BNB", "ADA", "SUI", "LTC", "TRX", "PAXG", "DAI", "BFUSD",
+];
 
 fn to_datetime_utc<'de, D>(deserializer: D) -> std::result::Result<DateTime<Utc>, D::Error>
 where
