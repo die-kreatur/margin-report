@@ -1,3 +1,4 @@
+use numfmt::Numeric;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
@@ -27,6 +28,10 @@ impl TimeDifference {
             hours: total_hours,
             minutes: total_minutes
         }
+    }
+
+    pub fn is_none(&self) -> bool {
+        self.days.is_zero() && self.hours.is_zero() && self.minutes.is_zero()
     }
 }
 
@@ -101,7 +106,7 @@ impl MarginDataUpdated {
     }
 
     pub fn is_percent_changed_enough(&self) -> bool {
-        self.borrow_change().abs() >= Decimal::TEN
+        self.borrow_change() >= Decimal::TEN
     }
 
     pub fn is_borrowing_rapidly_increased(&self) -> bool {

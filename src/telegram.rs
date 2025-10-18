@@ -221,10 +221,15 @@ pub fn format_full_report(report: Report, updated: TimeDifference) -> String {
     let spot = format_spot_report(report.spot);
     let futures = format_futures_report(report.futures);
 
-    format!(
-        "{}\n\n{}\n\n{}\n\nLast signal {}ago",
-        margin, spot, futures, updated
-    )
+    let mut msg = format!("{}\n\n{}\n\n{}\n\nLast signal: ", margin, spot, futures);
+
+    if updated.is_none() {
+        msg.push_str("never");
+    } else {
+        msg.push_str(&format!("{} ago", updated));
+    }
+
+    msg
 }
 
 pub struct Telegram {
