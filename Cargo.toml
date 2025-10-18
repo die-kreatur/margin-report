@@ -1,0 +1,17 @@
+[package]
+name = "report"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["gzip", "json"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.141"
+rust_decimal = "1.37.2"
+tokio = { version = "1.46", features = ["rt", "macros", "rt-multi-thread"] }
+redis = { version = "0.32", features = ["aio", "tokio-comp"] }
+log = "0.4"
+env_logger = "0.11.8"
+chrono = { version = "0.4", features = ["serde"] }
+numfmt = "1.2"
+futures = "0.3"

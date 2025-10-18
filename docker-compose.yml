@@ -1,0 +1,19 @@
+services:
+  report:
+    image: local/report:latest
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - RUST_LOG=debug
+    depends_on:
+      - redis
+    volumes:
+      - ./config.json:/app/config.json:ro
+  redis:
+    image: redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+volumes:
+  redis-data:

@@ -1,0 +1,352 @@
+[
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "432266.83000000",
+    "sumOpenInterestValue": "80522665.09240000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760679600000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "433397.27000000",
+    "sumOpenInterestValue": "80616226.19270000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760679900000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "435511.51000000",
+    "sumOpenInterestValue": "80935212.48839954",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760680200000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "437575.73000000",
+    "sumOpenInterestValue": "81329117.33017917",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760680500000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "435982.34000000",
+    "sumOpenInterestValue": "80944481.24440000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760680800000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "437083.81000000",
+    "sumOpenInterestValue": "81354409.55530000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760681100000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "435632.12000000",
+    "sumOpenInterestValue": "81134824.56503630",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760681400000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "436369.15000000",
+    "sumOpenInterestValue": "81032448.01707998",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760681700000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "437055.68000000",
+    "sumOpenInterestValue": "80759148.55040000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760682000000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "439330.19000000",
+    "sumOpenInterestValue": "80894953.51792581",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760682300000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "442204.00000000",
+    "sumOpenInterestValue": "81277095.20000000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760682600000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "446229.75000000",
+    "sumOpenInterestValue": "81762677.09250000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760682900000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "447777.84000000",
+    "sumOpenInterestValue": "81548261.62248900",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760683200000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "449004.56000000",
+    "sumOpenInterestValue": "81314725.81600000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760683500000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "449547.83000000",
+    "sumOpenInterestValue": "80920411.16522525",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760683800000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "455160.19000000",
+    "sumOpenInterestValue": "82406752.39950000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760684100000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "453371.70000000",
+    "sumOpenInterestValue": "81783394.82553388",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760684400000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "455025.56000000",
+    "sumOpenInterestValue": "81814366.09177564",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760684700000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "460405.82000000",
+    "sumOpenInterestValue": "82378574.45650622",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760685000000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "462063.13000000",
+    "sumOpenInterestValue": "82653852.69440000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760685300000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "461949.01000000",
+    "sumOpenInterestValue": "82749251.85383001",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760685600000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "462972.82000000",
+    "sumOpenInterestValue": "82745991.74246868",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760685900000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "461226.33000000",
+    "sumOpenInterestValue": "82411920.64440000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760686200000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "468159.15000000",
+    "sumOpenInterestValue": "83362288.10473464",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760686500000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "461144.68000000",
+    "sumOpenInterestValue": "82601282.90376478",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760686800000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "459567.48000000",
+    "sumOpenInterestValue": "82244164.81395842",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760687100000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "456973.66000000",
+    "sumOpenInterestValue": "81533240.41720000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760687400000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "456625.82000000",
+    "sumOpenInterestValue": "81676660.42340000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760687700000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "454888.83000000",
+    "sumOpenInterestValue": "80840001.39087674",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760688000000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "457420.39000000",
+    "sumOpenInterestValue": "80874591.13194980",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760688300000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "459196.80000000",
+    "sumOpenInterestValue": "81759990.24000000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760688600000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "456344.80000000",
+    "sumOpenInterestValue": "80946440.62400000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760688900000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "458119.05000000",
+    "sumOpenInterestValue": "80862593.51550000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760689200000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "462401.33000000",
+    "sumOpenInterestValue": "81646599.21314410",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760689500000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "460454.37000000",
+    "sumOpenInterestValue": "81545929.59679642",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760689800000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "460677.17000000",
+    "sumOpenInterestValue": "81996734.96851143",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760690100000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "457788.90000000",
+    "sumOpenInterestValue": "81230062.41600000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760690400000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "457390.03000000",
+    "sumOpenInterestValue": "80797948.79950000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760690700000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "454826.51000000",
+    "sumOpenInterestValue": "80206187.31814255",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760691000000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "456334.26000000",
+    "sumOpenInterestValue": "80211914.43753907",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760691300000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "457962.31000000",
+    "sumOpenInterestValue": "80376965.02810000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760691600000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "458736.70000000",
+    "sumOpenInterestValue": "80962440.18300000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760691900000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "459627.54000000",
+    "sumOpenInterestValue": "81174819.83940000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760692200000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "460115.18000000",
+    "sumOpenInterestValue": "81440386.86000000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760692500000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "461014.79000000",
+    "sumOpenInterestValue": "81738502.30197833",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760692800000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "459532.24000000",
+    "sumOpenInterestValue": "81079967.47777434",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760693100000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "460591.21000000",
+    "sumOpenInterestValue": "81817505.90001556",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760693400000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "465059.76000000",
+    "sumOpenInterestValue": "83376167.23967040",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760693700000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "463953.60000000",
+    "sumOpenInterestValue": "83396605.14671588",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760694000000
+  },
+  {
+    "symbol": "SOLUSDC",
+    "sumOpenInterest": "459131.91000000",
+    "sumOpenInterestValue": "81785167.12830000",
+    "CMCCirculatingSupply": "546832260.10509620",
+    "timestamp": 1760694300000
+  }
+]
