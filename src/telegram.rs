@@ -100,7 +100,9 @@ fn format_daily_volume_report(data: Option<BinanceDailyVolume>) -> String {
 
     let doll_vol = format_number(&mut f_doll, report.quote_volume);
     let vol = format_number(&mut f, report.volume);
-    let vol_msg = format!("*{}* ({} {})", doll_vol, vol, report.symbol);
+
+    let symbol = report.symbol.strip_suffix("USDT").unwrap_or(&report.symbol);
+    let vol_msg = format!("*{}* ({} {})", doll_vol, vol, symbol);
 
     msg.push_str(&vol_msg);
     msg
@@ -226,7 +228,7 @@ pub fn format_full_report(report: Report, updated: TimeDifference) -> String {
     if updated.is_none() {
         msg.push_str("never");
     } else {
-        msg.push_str(&format!("{} ago", updated));
+        msg.push_str(&format!("{}ago", updated));
     }
 
     msg

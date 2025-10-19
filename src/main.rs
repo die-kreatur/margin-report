@@ -10,7 +10,7 @@ use crate::margin_data::margin_data_processor;
 use crate::config::read_from_file;
 use crate::redis::Redis;
 use crate::report::{periodic_futures_pairs_update, ReportCollector};
-use crate::report_processor::process_new_reports;
+use crate::report_processor::{process_new_reports, ReportProcessor};
 use crate::structs::MarginDataMessage;
 use crate::telegram::Telegram;
 use crate::utils::calculate_delay_secs;
@@ -45,7 +45,6 @@ async fn main() {
 
     let client = Client::new();
     let binance = Binance::new(client.clone());
-    let tg = Telegram::new(client, config.telegram);
     let redis = Arc::new(Redis::new(config.redis_url));
 
     let report_collector = Arc::new(ReportCollector::new(binance.clone()));
@@ -55,7 +54,10 @@ async fn main() {
     let margin_data_task = task::spawn(margin_data_processor(redis.clone(), binance.clone(), report_tx.clone()));
     info!("Started task to check binance updates and save them to redis");
 
-    let report_task = task::spawn(process_new_reports(tg, binance, report_rx, redis));
+    let tg = Telegram::new(client, config.telegram);
+    let report_processor = ReportProcessor::new(report_collector, redis, tg);
+    let report_task = task::spawn(process_new_reports(report_processor, report_rx));
+    info!("Started task to process reports");
 
     if let Err(e) = try_join!(exch_info_task, margin_data_task, report_task) {
         report_tx.send(MarginDataMessage::Error(e.to_string())).await.unwrap();

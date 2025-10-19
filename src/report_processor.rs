@@ -4,21 +4,19 @@ use chrono::{DateTime, Utc};
 use log::{error, info};
 use tokio::sync::mpsc::Receiver;
 
-use crate::binance::Binance;
 use crate::redis::Redis;
 use crate::report::ReportCollector;
 use crate::structs::{MarginDataMessage, MarginDataUpdated, TimeDifference};
 use crate::telegram::{format_full_report, format_new_margin_data_message, Telegram};
 
 pub struct ReportProcessor {
-    report: ReportCollector,
+    report: Arc<ReportCollector>,
     redis: Arc<Redis>,
     tg: Telegram,
 }
 
 impl ReportProcessor {
-    pub fn new(binance: Binance, redis: Arc<Redis>, tg: Telegram) -> Self {
-        let report = ReportCollector::new(binance);
+    pub fn new(report: Arc<ReportCollector>, redis: Arc<Redis>, tg: Telegram) -> Self {
         Self { report, redis, tg }
     }
 
@@ -65,13 +63,9 @@ impl ReportProcessor {
 }
 
 pub async fn process_new_reports(
-    tg: Telegram,
-    binance: Binance,
+    processor: ReportProcessor,
     mut report_rx: Receiver<MarginDataMessage>,
-    redis: Arc<Redis>,
 ) {
-    let processor = ReportProcessor::new(binance, redis, tg);
-
     while let Some(event) = report_rx.recv().await {
         match event {
             MarginDataMessage::Error(e) => processor.tg.send_error_message(e).await,

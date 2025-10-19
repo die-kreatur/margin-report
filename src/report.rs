@@ -335,7 +335,7 @@ impl ReportCollector {
             total_borrow: margin_update.new.total_borrow,
             total_borrow_usdt: margin_update.new.total_borrow_in_usdt,
             total_repay: margin_update.new.total_repay,
-            total_repay_usdt: margin_update.new.total_borrow_in_usdt,
+            total_repay_usdt: margin_update.new.total_repay_in_usdt,
             borrow_change: margin_update.borrow_change(),
             repay_change: margin_update.repay_change(),
             br_ratio: margin_update.borrow_repay_ratio(),
