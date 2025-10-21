@@ -10,7 +10,10 @@ use tokio::sync::RwLock;
 use tokio::time::interval;
 
 use crate::binance::{
-    Binance, BinanceCandleMarketTradeVolume, BinanceDailyVolume, BinanceLongShortRatioPositions,
+    Binance,
+    BinanceCandleMarketTradeVolume,
+    BinanceDailyVolume,
+    BinanceLongShortRatioPositions,
     BinanceOpenInterest,
 };
 use crate::error::Result;
@@ -40,7 +43,7 @@ pub struct MarginDataReport {
 
 #[derive(Debug)]
 pub struct SpotReport {
-    pub volume_change: Vec<VolumeChange>,
+    pub volume_change: Vec<AggregatedVolume>,
     pub daily_volume: Option<BinanceDailyVolume>,
 }
 
@@ -76,6 +79,10 @@ impl Interval {
             Interval::H4 => 48,
         }
     }
+
+    fn len(&self) -> usize {
+        self.index() + 1
+    }
 }
 
 impl Display for Interval {
@@ -93,10 +100,23 @@ impl Display for Interval {
 }
 
 #[derive(Debug, PartialEq, Eq)]
-pub struct VolumeChange {
+pub struct AggregatedVolume {
     pub interval: Interval,
     pub sell: Decimal,
     pub buy: Decimal,
+    pub buy_sell_ratio: Decimal,
+}
+
+impl AggregatedVolume {
+    pub fn trunc(&mut self) {
+        let process = |num: Decimal| {
+            num.trunc_with_scale(2).normalize()
+        };
+
+        self.sell = process(self.sell);
+        self.buy = process(self.buy);
+        self.buy_sell_ratio = process(self.buy_sell_ratio);
+    }
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -123,29 +143,29 @@ fn filter_sort_candles_volumes(
     volumes
 }
 
-fn calculate_volume_changes(volumes: Vec<BinanceCandleMarketTradeVolume>) -> Vec<VolumeChange> {
+fn calculate_volume_changes(volumes: Vec<BinanceCandleMarketTradeVolume>) -> Vec<AggregatedVolume> {
     let volumes = filter_sort_candles_volumes(volumes);
-
-    let Some(latest) = volumes.first() else {
-        return Vec::new();
-    };
 
     INTERVALS
         .iter()
         .filter_map(|interval| {
-            volumes
-                .get(interval.index())
-                .map(|volume| (interval, volume))
+            let volumes = volumes.iter().take(interval.len()).collect::<Vec<_>>();
+            (volumes.len() == interval.len()).then_some((interval, volumes))
         })
-        .map(|(interval, volume)| {
-            let sell_diff = find_percentage_diff(latest.sell_quote_volume, volume.sell_quote_volume);
-            let buy_diff = find_percentage_diff(latest.buy_quote_volume, volume.buy_quote_volume);
+        .map(|(interval, volumes)| {
+            let sell = volumes.iter().map(|item| item.sell_quote_volume).sum();
+            let buy = volumes.iter().map(|item| item.buy_quote_volume).sum();
+            let buy_sell_ratio = buy / sell;
 
-            VolumeChange {
+            let mut result = AggregatedVolume {
                 interval: *interval,
-                sell: sell_diff,
-                buy: buy_diff,
-            }
+                sell,
+                buy,
+                buy_sell_ratio,
+            };
+
+            result.trunc();
+            result
         })
         .collect()
 }
@@ -180,11 +200,10 @@ fn get_long_short_ratios(
     // ensure that order is correct and the newest ratios go first
     ratios.sort_by(|item1, item2| item2.datetime.cmp(&item1.datetime));
 
-    let Some(recent) = ratios.first() else {
-        return Vec::new();
-    };
+    let mut intervals = vec![Interval::Now];
+    intervals.extend_from_slice(&INTERVALS);
 
-    let mut data = INTERVALS
+    let data = intervals
         .iter()
         .filter_map(|interval| ratios.get(interval.index()).map(|ratio| (interval, ratio)))
         .map(|(interval, ratio)| LongShortRatioReport {
@@ -193,13 +212,6 @@ fn get_long_short_ratios(
         })
         .collect::<Vec<_>>();
 
-    data.insert(
-        0,
-        LongShortRatioReport {
-            interval: Interval::Now,
-            ratio: recent.long_short_ratio.trunc_with_scale(2).normalize(),
-        },
-    );
     data
 }
 
@@ -240,7 +252,7 @@ impl ReportCollector {
         false
     }
 
-    async fn get_market_volumes_statistics(&self, symbol: &str) -> Vec<VolumeChange> {
+    async fn get_market_volumes_statistics(&self, symbol: &str) -> Vec<AggregatedVolume> {
         self.binance
             .get_candlesticks_market_volume(symbol)
             .await
@@ -418,89 +430,154 @@ mod test {
     #[test]
     fn test_calculate_volume_changes() {
         let candles = candles_fixture();
-        let result = calculate_volume_changes(candles);
+        let result = calculate_volume_changes(candles.clone());
 
         let expected = vec![
-            VolumeChange {
+            AggregatedVolume {
                 interval: Interval::M5,
-                sell: Decimal::new(-3404, 2),
-                buy: Decimal::new(-651, 2),
+                sell: Decimal::new(188761016, 2),
+                buy: Decimal::new(109170792, 2),
+                buy_sell_ratio: Decimal::new(57, 2),
             },
-            VolumeChange {
+            AggregatedVolume {
                 interval: Interval::M15,
-                sell: Decimal::new(-803, 1),
-                buy: Decimal::new(-7464, 2),
+                sell: Decimal::new(631800647, 2),
+                buy: Decimal::new(356323561, 2),
+                buy_sell_ratio: Decimal::new(56, 2),
             },
-            VolumeChange {
+            AggregatedVolume {
                 interval: Interval::H1,
-                sell: Decimal::new(18224, 2),
-                buy: Decimal::new(7269, 2),
+                sell: Decimal::new(1443993596, 2),
+                buy: Decimal::new(1388116074, 2),
+                buy_sell_ratio: Decimal::new(96, 2),
             },
-            VolumeChange {
+            AggregatedVolume {
                 interval: Interval::H4,
-                sell: Decimal::new(6144, 2),
-                buy: Decimal::new(-4944, 2),
+                sell: Decimal::new(5207458809, 2),
+                buy: Decimal::new(3618809739, 2),
+                buy_sell_ratio: Decimal::new(69, 2),
             },
         ];
 
         assert_eq!(result, expected);
+
+        let candles = candles.into_iter().rev().take(10).collect::<Vec<_>>();
+        let result = calculate_volume_changes(candles);
+
+        let expected = vec![
+            AggregatedVolume {
+                interval: Interval::M5,
+                sell: Decimal::new(188761016, 2),
+                buy: Decimal::new(109170792, 2),
+                buy_sell_ratio: Decimal::new(57, 2),
+            },
+            AggregatedVolume {
+                interval: Interval::M15,
+                sell: Decimal::new(631800647, 2),
+                buy: Decimal::new(356323561, 2),
+                buy_sell_ratio: Decimal::new(56, 2),
+            }
+        ];
+
+        assert_eq!(result, expected);
+
+        let result = calculate_volume_changes(Vec::new());
+        assert!(result.is_empty());
     }
 
     #[test]
     fn test_get_long_short_ratios() {
         let ratios = position_ratio_fixture();
+        let result = get_long_short_ratios(ratios.clone());
+
+        let expected = vec![
+            LongShortRatioReport {
+                interval: Interval::Now,
+                ratio: Decimal::new(381, 2),
+            },
+            LongShortRatioReport {
+                interval: Interval::M5,
+                ratio: Decimal::new(381, 2),
+            },
+            LongShortRatioReport {
+                interval: Interval::M15,
+                ratio: Decimal::new(378, 2),
+            },
+            LongShortRatioReport {
+                interval: Interval::H1,
+                ratio: Decimal::new(359, 2),
+            },
+            LongShortRatioReport {
+                interval: Interval::H4,
+                ratio: Decimal::new(402, 2),
+            },
+        ];
+
+        assert_eq!(result, expected);
+
+        let ratios = ratios.into_iter().rev().take(3).collect::<Vec<_>>();
         let result = get_long_short_ratios(ratios);
 
         let expected = vec![
             LongShortRatioReport {
                 interval: Interval::Now,
-                ratio: Decimal::new(381, 2)
+                ratio: Decimal::new(381, 2),
             },
             LongShortRatioReport {
                 interval: Interval::M5,
-                ratio: Decimal::new(381, 2)
-            },
-            LongShortRatioReport {
-                interval: Interval::M15,
-                ratio: Decimal::new(378, 2)
-            },
-            LongShortRatioReport {
-                interval: Interval::H1,
-                ratio: Decimal::new(359, 2)
-            },
-            LongShortRatioReport {
-                interval: Interval::H4,
-                ratio: Decimal::new(402, 2)
+                ratio: Decimal::new(381, 2),
             },
         ];
 
         assert_eq!(result, expected);
+
+        let result = get_long_short_ratios(Vec::new());
+        assert!(result.is_empty());
     }
 
     #[test]
     fn test_calculate_open_interest_changes() {
         let oi = open_interest_fixture();
+        let result = calculate_open_interest_changes(oi.clone());
+
+        let expected = vec![
+            OpenInterestChange {
+                interval: Interval::M5,
+                change: Decimal::new(-193, 2),
+            },
+            OpenInterestChange {
+                interval: Interval::M15,
+                change: Decimal::new(-3, 2),
+            },
+            OpenInterestChange {
+                interval: Interval::H1,
+                change: Decimal::new(122, 2),
+            },
+            OpenInterestChange {
+                interval: Interval::H4,
+                change: Decimal::new(145, 2),
+            },
+        ];
+
+        assert_eq!(result, expected);
+
+        let oi = oi.into_iter().rev().take(10).collect::<Vec<_>>();
         let result = calculate_open_interest_changes(oi);
 
         let expected = vec![
             OpenInterestChange {
                 interval: Interval::M5,
-                change: Decimal::new(-193, 2)
+                change: Decimal::new(-193, 2),
             },
             OpenInterestChange {
                 interval: Interval::M15,
-                change: Decimal::new(-3, 2)
-            },
-            OpenInterestChange {
-                interval: Interval::H1,
-                change: Decimal::new(122, 2)
-            },
-            OpenInterestChange {
-                interval: Interval::H4,
-                change: Decimal::new(145, 2)
+                change: Decimal::new(-3, 2),
             },
         ];
 
         assert_eq!(result, expected);
+
+        let result = calculate_open_interest_changes(Vec::new());
+        assert!(result.is_empty());
     }
 }

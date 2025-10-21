@@ -15,7 +15,7 @@ use crate::report::{
     OpenInterestChange,
     Report,
     SpotReport,
-    VolumeChange
+    AggregatedVolume
 };
 use crate::structs::{MarginData, TimeDifference};
 
@@ -24,6 +24,7 @@ const MARKDOVWN2_ESCAPE_SYMBOLS: &str = r#"\\[]()~>#\+-={}.!""#;
 const MARKDOVWN2_SYMBOLS: &str = r#"*_"#;
 
 fn format_number(f: &mut Formatter, num: Decimal) -> String {
+    let num = num.trunc_with_scale(2).normalize();
     let num = num.to_f64().unwrap();
     let num = f.fmt2(num);
     num.to_owned()
@@ -68,24 +69,27 @@ fn format_spot_report(data: SpotReport) -> String {
     msg
 }
 
-fn format_spot_volume_report(data: Vec<VolumeChange>) -> String {
+fn format_spot_volume_report(data: Vec<AggregatedVolume>) -> String {
     if data.is_empty() {
         return "Trading volumes: no data".to_string()
     };
 
     let mut sell_msg = "🔴 Sell: ".to_string();
     let mut buy_msg = "🟢 Buy: ".to_string();
+    let mut ratio_msg = "⚖️ Buy sell ratios: ".to_string();
     let mut f = Formatter::default();
 
     for item in data {
-        let sell = format!("• _{}_ *{}*% ", item.interval, format_change(&mut f, item.sell));
-        let buy = format!("• _{}_ *{}*% ", item.interval, format_change(&mut f, item.buy));
+        let sell = format!("• _{}_ *{}* ", item.interval, format_number(&mut f, item.sell));
+        let buy = format!("• _{}_ *{}* ", item.interval, format_number(&mut f, item.buy));
+        let ratio = format!("• _{}_ *{}* ", item.interval, format_number(&mut f, item.buy_sell_ratio));
 
         sell_msg.push_str(&sell);
         buy_msg.push_str(&buy);
+        ratio_msg.push_str(&ratio);
     }
 
-    format!("{}\n{}", buy_msg, sell_msg)
+    format!("{}\n{}\n{}", buy_msg, sell_msg, ratio_msg)
 }
 
 fn format_daily_volume_report(data: Option<BinanceDailyVolume>) -> String {
@@ -204,11 +208,11 @@ fn format_margin_report_message(symbol: &str, data: MarginDataReport) -> String 
     );
     msg.push_str(&repay_str);
 
-    let ratio_str = format!("\n\nB/R ratio *{}*", format_number(&mut f, data.br_ratio));
+    let ratio_str = format!("\n\n⚖️ B/R ratio *{}*", format_number(&mut f, data.br_ratio));
     msg.push_str(&ratio_str);
 
     let available = format_number(&mut f, data.available);
-    let available_string = format!("\nAvailable *{}* {}", available, symbol);
+    let available_string = format!("\n🏦 Available *{}* {}", available, symbol);
     msg.push_str(&available_string);
 
     msg
